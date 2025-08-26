@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Contador de Mesada</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Teste de Atividades</h1>
+        
+        <div class="kid-card">
+            <div class="activities-section">
+                <h3>Teste - Clique nas atividades</h3>
+                <div class="activities-grid">
+                    <div class="activity-item" data-activity="teste1" data-value="0.50">
+                        <i class="fas fa-bed"></i>
+                        <span>Teste 1</span>
+                        <span class="value">-R$ 0,50</span>
+                    </div>
+                    <div class="activity-item" data-activity="teste2" data-value="0.75">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Teste 2</span>
+                        <span class="value">-R$ 0,75</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="daily-summary">
+                <h3>Resumo do Teste</h3>
+                <div class="daily-activities" id="testDailyActivities">
+                    <p class="no-activities">Nenhuma atividade marcada</p>
+                </div>
+                <div class="daily-total">
+                    <span>Total:</span>
+                    <span id="testDailyTotal">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Teste simples das atividades
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM carregado, testando atividades...');
+            
+            const activities = document.querySelectorAll('.activity-item');
+            console.log('Encontradas', activities.length, 'atividades');
+            
+            activities.forEach((item, index) => {
+                console.log(`Vinculando evento para atividade ${index + 1}:`, item.dataset.activity);
+                
+                item.addEventListener('click', (e) => {
+                    console.log('Clique detectado na atividade:', e.currentTarget.dataset.activity);
+                    
+                    // Toggle da seleção
+                    if (item.classList.contains('selected')) {
+                        item.classList.remove('selected');
+                        console.log('Atividade desmarcada');
+                    } else {
+                        item.classList.add('selected');
+                        console.log('Atividade marcada');
+                    }
+                    
+                    // Atualiza o resumo
+                    updateTestSummary();
+                });
+            });
+            
+            function updateTestSummary() {
+                const selectedActivities = document.querySelectorAll('.activity-item.selected');
+                const total = Array.from(selectedActivities).reduce((sum, item) => {
+                    return sum + parseFloat(item.dataset.value);
+                }, 0);
+                
+                const summary = document.getElementById('testDailyActivities');
+                const totalElement = document.getElementById('testDailyTotal');
+                
+                if (selectedActivities.length === 0) {
+                    summary.innerHTML = '<p class="no-activities">Nenhuma atividade marcada</p>';
+                } else {
+                    let html = '';
+                    selectedActivities.forEach(item => {
+                        html += `<div class="activity-count">${item.querySelector('span').textContent} - R$ ${item.dataset.value}</div>`;
+                    });
+                    summary.innerHTML = html;
+                }
+                
+                totalElement.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                console.log('Resumo atualizado, total:', total);
+            }
+        });
+    </script>
+</body>
+</html>

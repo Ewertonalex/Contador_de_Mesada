@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Mesada - Enzo & Matteo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                    <div class="coin-sparkle"></div>
+                    <div class="coin-sparkle"></div>
+                    <div class="coin-sparkle"></div>
+                </div>
+                <h1 class="main-title">Mesada<span class="highlight">Pro</span></h1>
+            </div>
+            <p class="subtitle">Sistema de Gestão para Enzo & Matteo</p>
+            <div class="header-decoration">
+                <div class="decoration-line"></div>
+                <div class="decoration-dot"></div>
+                <div class="decoration-line"></div>
+            </div>
+        </header>
+
+        <div class="month-selector">
+            <label for="monthSelect">Selecione o Mês:</label>
+            <select id="monthSelect">
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+            </select>
+
+        </div>
+
+        <div class="kids-container">
+            <!-- Enzo -->
+            <div class="kid-card">
+                <div class="kid-header enzo">
+                    <div class="kid-info">
+                        <div class="kid-photo">
+                            <img src="imagens/Enzo.png" alt="Enzo" class="kid-image">
+                        </div>
+                        <h2>Enzo</h2>
+                    </div>
+                    <div class="balance">
+                        <div class="mesada-input">
+                            <label for="enzoMesada">Mesada:</label>
+                            <div class="mesada-controls">
+                                <span class="mesada-display" id="enzoMesadaDisplay">R$ 30,00</span>
+                                <button class="btn-edit-mesada" id="enzoEditBtn" title="Editar mesada">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="mesada-edit-mode" id="enzoEditMode" style="display: none;">
+                                <input type="number" id="enzoMesada" value="30" min="0" step="0.50" class="mesada-field">
+                                <button class="btn-save-mesada" id="enzoSaveBtn" title="Salvar mesada">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn-cancel-mesada" id="enzoCancelBtn" title="Cancelar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="saldo-atual">
+                            <span class="balance-label">Saldo Atual:</span>
+                            <span class="balance-amount" id="enzoBalance">R$ 30,00</span>
+                        </div>
+                        <div class="kid-actions">
+                            <button id="saveEnzoBtn" class="btn btn-success btn-sm">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                            <button id="clearEnzoBtn" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Limpar Dia
+                            </button>
+                            <button id="resetEnzoMonthBtn" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-refresh"></i> Resetar Mês
+                            </button>
+                            <button id="reportEnzoBtn" class="btn btn-info btn-sm">
+                                <i class="fas fa-chart-bar"></i> Relatório
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-section">
+                    <h3>Atividades do Dia</h3>
+                    <div class="activities-grid">
+                        <div class="activity-item" data-activity="cama" data-value="0.50">
+                            <i class="fas fa-bed"></i>
+                            <span>Não arrumou cama</span>
+                            <span class="value">-R$ 0,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="tarefas-hora" data-value="0.75">
+                            <i class="fas fa-clock"></i>
+                            <span>Não fez tarefas na hora</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                        <div class="activity-item" data-activity="tarefas" data-value="1.00">
+                            <i class="fas fa-tasks"></i>
+                            <span>Não fez tarefas</span>
+                            <span class="value">-R$ 1,00</span>
+                        </div>
+                        <div class="activity-item" data-activity="lixo" data-value="0.50">
+                            <i class="fas fa-trash"></i>
+                            <span>Não jogou o lixo</span>
+                            <span class="value">-R$ 0,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="dentes" data-value="0.75">
+                            <i class="fas fa-tooth"></i>
+                            <span>Não escovou dentes</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                        <div class="activity-item" data-activity="dormir" data-value="0.50">
+                            <i class="fas fa-moon"></i>
+                            <span>Bagunçou na hora de dormir</span>
+                            <span class="value">-R$ 0,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="nota" data-value="1.50">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Tirou nota baixa</span>
+                            <span class="value">-R$ 1,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="estudou" data-value="1.00">
+                            <i class="fas fa-book"></i>
+                            <span>Não estudou para prova</span>
+                            <span class="value">-R$ 1,00</span>
+                        </div>
+                        <div class="activity-item" data-activity="obedeceu" data-value="1.25">
+                            <i class="fas fa-hand-paper"></i>
+                            <span>Não obedeceu ordens</span>
+                            <span class="value">-R$ 1,25</span>
+                        </div>
+                        <div class="activity-item" data-activity="bateu" data-value="2.00">
+                            <i class="fas fa-fist-raised"></i>
+                            <span>Bateu no irmão</span>
+                            <span class="value">-R$ 2,00</span>
+                        </div>
+                        <div class="activity-item" data-activity="quarto" data-value="0.75">
+                            <i class="fas fa-home"></i>
+                            <span>Bagunçou o quarto</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="daily-summary">
+                    <h3>Resumo do Dia</h3>
+                    <div class="daily-activities" id="enzoDailyActivities">
+                        <p class="no-activities">Nenhuma atividade marcada hoje</p>
+                    </div>
+                    <div class="daily-total">
+                        <span>Total do dia:</span>
+                        <span id="enzoDailyTotal">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matteo -->
+            <div class="kid-card">
+                <div class="kid-header matteo">
+                    <div class="kid-info">
+                        <div class="kid-photo">
+                            <img src="imagens/Matteo.png" alt="Matteo" class="kid-image">
+                        </div>
+                        <h2>Matteo</h2>
+                    </div>
+                    <div class="balance">
+                        <div class="mesada-input">
+                            <label for="matteoMesada">Mesada:</label>
+                            <div class="mesada-controls">
+                                <span class="mesada-display" id="matteoMesadaDisplay">R$ 10,00</span>
+                                <button class="btn-edit-mesada" id="matteoEditBtn" title="Editar mesada">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="mesada-edit-mode" id="matteoEditMode" style="display: none;">
+                                <input type="number" id="matteoMesada" value="10" min="0" step="0.50" class="mesada-field">
+                                <button class="btn-save-mesada" id="matteoSaveBtn" title="Salvar mesada">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn-cancel-mesada" id="matteoCancelBtn" title="Cancelar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="saldo-atual">
+                            <span class="balance-label">Saldo Atual:</span>
+                            <span class="balance-amount" id="matteoBalance">R$ 10,00</span>
+                        </div>
+                        <div class="kid-actions">
+                            <button id="saveMatteoBtn" class="btn btn-success btn-sm">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                            <button id="clearMatteoBtn" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Limpar Dia
+                            </button>
+                            <button id="resetMatteoMonthBtn" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-refresh"></i> Resetar Mês
+                            </button>
+                            <button id="reportMatteoBtn" class="btn btn-info btn-sm">
+                                <i class="fas fa-chart-bar"></i> Relatório
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-section">
+                    <h3>Atividades do Dia</h3>
+                    <div class="activities-grid">
+                        <div class="activity-item" data-activity="dentes-matteo" data-value="0.50">
+                            <i class="fas fa-tooth"></i>
+                            <span>Não escovou dentes</span>
+                            <span class="value">-R$ 0,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="tarefas-matteo" data-value="0.75">
+                            <i class="fas fa-tasks"></i>
+                            <span>Não fez tarefas</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                        <div class="activity-item" data-activity="obedeceu-matteo" data-value="1.00">
+                            <i class="fas fa-hand-paper"></i>
+                            <span>Desobedeceu os pais</span>
+                            <span class="value">-R$ 1,00</span>
+                        </div>
+                        <div class="activity-item" data-activity="bravo" data-value="0.75">
+                            <i class="fas fa-angry"></i>
+                            <span>Ficou bravo com os pais</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                        <div class="activity-item" data-activity="bateu-matteo" data-value="1.50">
+                            <i class="fas fa-fist-raised"></i>
+                            <span>Bateu no irmão</span>
+                            <span class="value">-R$ 1,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="escola" data-value="1.25">
+                            <i class="fas fa-school"></i>
+                            <span>Não se comportou na escola</span>
+                            <span class="value">-R$ 1,25</span>
+                        </div>
+                        <div class="activity-item" data-activity="brinquedos" data-value="0.50">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Deixou brinquedos espalhados</span>
+                            <span class="value">-R$ 0,50</span>
+                        </div>
+                        <div class="activity-item" data-activity="comer" data-value="0.75">
+                            <i class="fas fa-utensils"></i>
+                            <span>Não quis comer</span>
+                            <span class="value">-R$ 0,75</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="daily-summary">
+                    <h3>Resumo do Dia</h3>
+                    <div class="daily-activities" id="matteoDailyActivities">
+                        <p class="no-activities">Nenhuma atividade marcada hoje</p>
+                    </div>
+                    <div class="daily-total">
+                        <span>Total do dia:</span>
+                        <span id="matteoDailyTotal">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal do Relatório -->
+        <div id="reportModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Relatório Mensal</h2>
+                <div id="monthReport"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
