@@ -49,13 +49,16 @@
 
         <div class="kids-container">
             <!-- Enzo -->
-            <div class="kid-card">
+            <div class="kid-card" data-kid="enzo">
                 <div class="kid-header enzo">
-                    <div class="kid-info">
+                    <div class="kid-info clickable-header" data-kid="enzo">
                         <div class="kid-photo">
                             <img src="imagens/Enzo.png" alt="Enzo" class="kid-image">
                         </div>
                         <h2>Enzo</h2>
+                        <div class="expand-indicator">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
                     </div>
                     <div class="balance">
                         <div class="mesada-input">
@@ -97,7 +100,8 @@
                     </div>
                 </div>
                 
-                <div class="activities-section">
+                <div class="kid-content expandable-content">
+                    <div class="activities-section">
                     <h3>Atividades do Dia</h3>
                     <div class="activities-grid">
                         <div class="activity-item" data-activity="cama" data-value="0.50">
@@ -168,16 +172,20 @@
                         <span id="enzoDailyTotal">R$ 0,00</span>
                     </div>
                 </div>
+                </div>
             </div>
 
             <!-- Matteo -->
-            <div class="kid-card">
+            <div class="kid-card" data-kid="matteo">
                 <div class="kid-header matteo">
-                    <div class="kid-info">
+                    <div class="kid-info clickable-header" data-kid="matteo">
                         <div class="kid-photo">
                             <img src="imagens/Matteo.png" alt="Matteo" class="kid-image">
                         </div>
                         <h2>Matteo</h2>
+                        <div class="expand-indicator">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
                     </div>
                     <div class="balance">
                         <div class="mesada-input">
@@ -219,7 +227,8 @@
                     </div>
                 </div>
                 
-                <div class="activities-section">
+                <div class="kid-content expandable-content">
+                    <div class="activities-section">
                     <h3>Atividades do Dia</h3>
                     <div class="activities-grid">
                         <div class="activity-item" data-activity="dentes-matteo" data-value="0.50">
@@ -274,6 +283,7 @@
                         <span>Total do dia:</span>
                         <span id="matteoDailyTotal">R$ 0,00</span>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

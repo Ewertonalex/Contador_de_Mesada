@@ -1154,12 +1154,68 @@ notificationStyles.textContent = `
 `;
 document.head.appendChild(notificationStyles);
 
+// Sistema de expansão/colapso para mobile
+class MobileToggleSystem {
+    constructor() {
+        this.bindToggleEvents();
+    }
+
+    bindToggleEvents() {
+        // Adiciona eventos de clique nos headers clicáveis
+        document.querySelectorAll('.clickable-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                const kidData = e.currentTarget.getAttribute('data-kid');
+                this.toggleKidCard(kidData);
+            });
+        });
+    }
+
+    toggleKidCard(kidName) {
+        const kidCard = document.querySelector(`[data-kid="${kidName}"]`);
+        if (!kidCard) return;
+
+        // Se está expandido, colapsa; se está colapsado, expande
+        if (kidCard.classList.contains('expanded')) {
+            this.collapseCard(kidCard);
+        } else {
+            // Primeiro colapsa todos os outros cards
+            this.collapseAllCards();
+            // Depois expande o card clicado
+            this.expandCard(kidCard);
+        }
+    }
+
+    expandCard(kidCard) {
+        kidCard.classList.add('expanded');
+        
+        // Scroll suave para o card expandido
+        setTimeout(() => {
+            kidCard.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+
+    collapseCard(kidCard) {
+        kidCard.classList.remove('expanded');
+    }
+
+    collapseAllCards() {
+        document.querySelectorAll('.kid-card').forEach(card => {
+            card.classList.remove('expanded');
+        });
+    }
+}
+
 console.log('Criando instância da aplicação...');
 
 // Inicializa a aplicação
 try {
     const app = new ContadorMesada();
+    const mobileToggle = new MobileToggleSystem();
     console.log('Aplicação criada com sucesso:', app);
+    console.log('Sistema mobile inicializado:', mobileToggle);
 } catch (error) {
     console.error('Erro ao criar aplicação:', error);
 }

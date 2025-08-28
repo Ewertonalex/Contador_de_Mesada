@@ -277,6 +277,10 @@ body::before {
     object-fit: cover;
 }
 
+.expand-indicator {
+    display: none;
+}
+
 .kid-header h2 {
     font-size: 1.7rem;
     margin: 0;
@@ -768,6 +772,15 @@ body::before {
         font-size: 2.2rem;
     }
     
+    .logo-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .logo-icon i {
+        font-size: 2rem;
+    }
+    
     .header .subtitle {
         font-size: 1rem;
     }
@@ -783,11 +796,63 @@ body::before {
         width: 100%;
     }
     
-    .kid-header {
-        flex-direction: column;
+    .kids-container {
+        grid-template-columns: 1fr;
         gap: 15px;
-        text-align: center;
+    }
+    
+    .kid-card {
+        margin-bottom: 10px;
+    }
+    
+    .kid-header {
+        flex-direction: row;
+        justify-content: center;
         padding: 20px;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .clickable-header {
+        position: relative;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .expand-indicator {
+        display: block !important;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.3s ease;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .kid-card.expanded .expand-indicator {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    
+    .balance {
+        display: none;
+    }
+    
+    .kid-card.expanded .balance {
+        display: flex;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .expandable-content {
+        display: none;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    .kid-card.expanded .expandable-content {
+        display: block;
     }
     
     .activities-grid {
@@ -801,34 +866,103 @@ body::before {
     }
 }
 
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        max-height: 2000px;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .logo-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .logo-icon i {
+        font-size: 1.5rem;
+    }
+    
     .kid-card {
         padding: 0;
+        margin-bottom: 5px;
+    }
+    
+    .kid-header {
+        padding: 15px;
+    }
+    
+    .kid-photo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .kid-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .expand-indicator {
+        right: 15px !important;
+        font-size: 1rem !important;
     }
     
     .kid-content {
-        padding: 20px;
+        padding: 15px;
+    }
+    
+    .activities-section h3 {
+        font-size: 1rem;
+        margin-bottom: 15px;
     }
     
     .activity-item {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
         gap: 8px;
-        padding: 12px;
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    
+    .activity-item i {
+        font-size: 1rem;
     }
     
     .activity-item .value {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
     
     .kid-actions {
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 5px;
+        padding: 0 10px;
     }
     
     .kid-actions .btn {
-        width: calc(50% - 5px);
-        font-size: 0.75rem;
+        width: calc(50% - 2.5px);
+        font-size: 0.55rem;
+        height: 24px;
+        padding: 2px 4px;
+    }
+    
+    .balance-amount {
+        font-size: 1.4rem;
+    }
+    
+    .mesada-display {
+        font-size: 0.85rem;
     }
 }
 
