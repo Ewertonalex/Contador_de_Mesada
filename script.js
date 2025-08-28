@@ -859,6 +859,17 @@ class ContadorMesada {
         try {
             localStorage.setItem('contadorMesada', JSON.stringify(this.data));
             console.log('Dados salvos no localStorage');
+            
+            // Sincroniza com Firebase se disponível
+            if (window.firebaseSync) {
+                const dataToSync = {
+                    mesadaData: this.data,
+                    currentMonth: this.currentMonth,
+                    balances: this.balances
+                };
+                window.firebaseSync.onDataChange(dataToSync);
+                console.log('🔄 Dados sincronizados com Firebase');
+            }
         } catch (error) {
             console.error('Erro ao salvar dados:', error);
         }
@@ -1253,6 +1264,10 @@ console.log('Criando instância da aplicação...');
 try {
     const app = new ContadorMesada();
     const mobileToggle = new MobileToggleSystem();
+    
+    // Disponibiliza globalmente para integração com Firebase
+    window.contadorMesada = app;
+    
     console.log('Aplicação criada com sucesso:', app);
     console.log('Sistema mobile inicializado:', mobileToggle);
 } catch (error) {

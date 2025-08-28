@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Login - MesadaKids</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="login-logo">
+                <img src="imagens/logo imagens/Logo MesadaKids com Texto.png" alt="MesadaKids Logo" class="logo-login">
+            </div>
+            
+            <!-- Título -->
+            <h1 class="login-title">Acesso Familiar</h1>
+            <p class="login-subtitle">Entre para acompanhar a mesada dos seus filhos</p>
+            
+            <!-- Formulário de Login -->
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="text" id="username" placeholder="Usuário" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <input type="password" id="password" placeholder="Senha" required>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Entrar
+                </button>
+            </form>
+            
+            <!-- Dica para usuários -->
+            <div class="login-info">
+                <p><i class="fas fa-info-circle"></i> Use as credenciais de acesso familiar</p>
+            </div>
+            
+            <!-- Mensagem de erro -->
+            <div class="error-message" id="errorMessage" style="display: none;"></div>
+        </div>
+        
+        <!-- Mascotes animados no fundo -->
+        <div class="login-mascots">
+            <div class="mascot-login mascot-login-1">
+                <img src="imagens/logo imagens/Logo Mascote Simplificado.png" alt="Mascote">
+            </div>
+            <div class="mascot-login mascot-login-2">
+                <img src="imagens/logo imagens/Logo Mascote Moeda-Cofrinho.png" alt="Mascote">
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import das funções do Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Configuração do Firebase (você precisará substituir pelos seus dados)
+        const firebaseConfig = {
+            // Configuração será adicionada após criar o projeto no Firebase Console
+            apiKey: "AIzaSyAWxlKMbSjQo-6s7cAiUecPCsm6C89vmK4",
+            authDomain: "mesadakids-534c2.firebaseapp.com",
+            projectId: "mesadakids-534c2",
+            storageBucket: "mesadakids-534c2.firebasestorage.app",
+            messagingSenderId: "827704870033",
+            appId: "1:827704870033:web:b0e453f6419a0018346b30",
+            measurementId: "G-46SZ3EN88Q"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // Sistema de autenticação
+        class AuthSystem {
+            constructor() {
+                this.bindEvents();
+                this.checkAuthState();
+            }
+
+            bindEvents() {
+                // Login com email/senha
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.loginWithEmailPassword();
+                });
+
+                // Código do botão Google removido - usando apenas login/senha
+            }
+
+            checkAuthState() {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log('Usuário logado:', user.email);
+                        // Redireciona para a aplicação principal
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+
+            async loginWithEmailPassword() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                // Verifica credenciais hardcoded
+                if (username === 'admin' && password === 'admin') {
+                    try {
+                        // Faz login com email fixo para admin
+                        const result = await signInWithEmailAndPassword(auth, 'admin@mesadakids.com', 'admin123');
+                        this.showSuccess('Login realizado com sucesso!');
+                    } catch (error) {
+                        // Se o usuário admin não existir, pode ser necessário criá-lo
+                        console.error('Erro no login:', error);
+                        this.showError('Credenciais inválidas');
+                    }
+                } else {
+                    this.showError('Usuário ou senha incorretos');
+                }
+            }
+
+            async loginWithGoogle() {
+                try {
+                    console.log('🔵 Iniciando login com Google...');
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+                    console.log('✅ Login com Google sucesso:', user.email);
+                    this.showSuccess('Login com Google realizado!');
+                } catch (error) {
+                    console.error('❌ Erro no login com Google:', error);
+                    console.error('Código do erro:', error.code);
+                    console.error('Mensagem:', error.message);
+                    
+                    let errorMessage = 'Erro no login com Google';
+                    if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'Pop-up bloqueado. Permita pop-ups para este site.';
+                    } else if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'Login cancelado pelo usuário.';
+                    } else if (error.code === 'auth/unauthorized-domain') {
+                        errorMessage = 'Domínio não autorizado no Firebase.';
+                    }
+                    
+                    this.showError(errorMessage);
+                }
+            }
+
+            showError(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                errorDiv.className = 'error-message show';
+                
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+
+            showSuccess(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                errorDiv.className = 'success-message show';
+            }
+        }
+
+        // Inicializa o sistema de autenticação
+        window.addEventListener('DOMContentLoaded', () => {
+            new AuthSystem();
+        });
+    </script>
+</body>
+</html>

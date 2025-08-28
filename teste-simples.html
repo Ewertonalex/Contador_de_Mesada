@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Simples - Sem Firebase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .logout-btn {
+            background: rgba(220, 53, 69, 0.9);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 20px;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 MesadaKids - TESTE SIMPLES</h1>
+    <p>Esta é uma versão SEM Firebase para testar o logout</p>
+    
+    <button class="logout-btn" onclick="sairTeste()">
+        🚪 Sair (Teste)
+    </button>
+    
+    <script>
+        function sairTeste() {
+            console.log('🖱️ Clicou em sair (teste)');
+            
+            if (confirm('Tem certeza que deseja sair? (TESTE)')) {
+                console.log('✅ Confirmado - redirecionando...');
+                
+                // Limpa tudo
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Redireciona
+                window.location.replace('login.html');
+            }
+        }
+        
+        console.log('✅ Teste simples carregado');
+    </script>
+</body>
+</html>

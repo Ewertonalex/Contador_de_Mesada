@@ -3,10 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>MesadaKids - Contador de Mesada</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module" src="firebase-config.js"></script>
+    
+    <!-- Script de logout direto -->
+    <script>
+        // Conecta o botão de logout diretamente quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 Página carregada, procurando botão logout...');
+            
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                console.log('✅ Botão logout encontrado!');
+                
+                // Remove qualquer listener anterior
+                logoutBtn.removeEventListener('click', handleLogout);
+                
+                // Adiciona novo listener
+                logoutBtn.addEventListener('click', handleLogout);
+                
+                console.log('✅ Event listener adicionado ao botão logout');
+            } else {
+                console.error('❌ Botão logout não encontrado!');
+            }
+        });
+        
+        function handleLogout(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🖱️ Botão Sair clicado!');
+            
+            const confirmed = confirm('Tem certeza que deseja sair?');
+            if (confirmed) {
+                console.log('✅ LOGOUT FORÇADO - Ignorando Firebase completamente');
+                
+                // MARCA que o usuário fez logout manual
+                localStorage.setItem('manualLogout', 'true');
+                sessionStorage.setItem('manualLogoutFlag', 'true');
+                
+                // Limpa TUDO
+                setTimeout(() => {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                }, 100);
+                
+                // Desabilita Firebase
+                window.firebaseDisabled = true;
+                window.firebaseSync = null;
+                
+                console.log('🔄 REDIRECIONAMENTO FORÇADO...');
+                
+                // Redireciona usando múltiplas tentativas
+                window.location.href = 'login.html';
+                
+                // Backup após 500ms
+                setTimeout(() => {
+                    window.location.replace('login.html');
+                }, 500);
+                
+                // Backup final após 1s
+                setTimeout(() => {
+                    window.top.location = 'login.html';
+                }, 1000);
+                
+            } else {
+                console.log('❌ Logout cancelado');
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Mascotes Animados -->
@@ -27,6 +99,9 @@
 
     <div class="container">
         <header class="header">
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
             <div class="logo-container">
                 <div class="professional-logo">
                     <img src="imagens/logo imagens/Logo MesadaKids com Texto.png" alt="MesadaKids Logo" class="logo-image">
