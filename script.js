@@ -1164,29 +1164,66 @@ class MobileToggleSystem {
         // Adiciona eventos de clique nos headers clicáveis
         document.querySelectorAll('.clickable-header').forEach(header => {
             header.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const kidData = e.currentTarget.getAttribute('data-kid');
+                console.log(`🔍 Clique detectado no header: ${kidData}`);
+                
+                const kidCard = document.querySelector(`[data-kid="${kidData}"]`);
+                console.log(`📋 Card encontrado:`, kidCard);
+                console.log(`📊 Classes atuais:`, kidCard ? kidCard.className : 'N/A');
+                console.log(`✅ Tem classe expanded?`, kidCard ? kidCard.classList.contains('expanded') : false);
+                
                 this.toggleKidCard(kidData);
             });
         });
     }
 
     toggleKidCard(kidName) {
+        console.log(`🎯 INICIANDO toggle para: ${kidName}`);
+        
         const kidCard = document.querySelector(`[data-kid="${kidName}"]`);
-        if (!kidCard) return;
-
-        // Se está expandido, colapsa; se está colapsado, expande
-        if (kidCard.classList.contains('expanded')) {
-            this.collapseCard(kidCard);
-        } else {
-            // Primeiro colapsa todos os outros cards
-            this.collapseAllCards();
-            // Depois expande o card clicado
-            this.expandCard(kidCard);
+        if (!kidCard) {
+            console.log(`❌ Card não encontrado para: ${kidName}`);
+            return;
         }
+
+        // Verifica o estado ATUAL antes de qualquer modificação
+        const wasExpanded = kidCard.classList.contains('expanded');
+        console.log(`🔄 Card ${kidName} estava expandido? ${wasExpanded}`);
+
+        if (wasExpanded) {
+            // Se estava expandido, só colapsa este card
+            console.log(`🔽 Colapsando card ${kidName}`);
+            kidCard.classList.remove('expanded');
+            console.log(`✅ Card ${kidName} colapsado`);
+        } else {
+            // Se não estava expandido, colapsa todos e expande este
+            console.log(`🔄 Colapsando todos os cards primeiro`);
+            document.querySelectorAll('.kid-card').forEach(card => {
+                card.classList.remove('expanded');
+            });
+            
+            console.log(`🔼 Expandindo card ${kidName}`);
+            kidCard.classList.add('expanded');
+            console.log(`✅ Card ${kidName} expandido`);
+            
+            // Scroll suave para o card expandido
+            setTimeout(() => {
+                kidCard.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+        
+        console.log(`🏁 FINALIZADO toggle para: ${kidName}`);
     }
 
     expandCard(kidCard) {
+        // Adiciona a classe expandida
         kidCard.classList.add('expanded');
+        console.log('Card expandido:', kidCard.getAttribute('data-kid'));
         
         // Scroll suave para o card expandido
         setTimeout(() => {
@@ -1199,12 +1236,14 @@ class MobileToggleSystem {
 
     collapseCard(kidCard) {
         kidCard.classList.remove('expanded');
+        console.log('Card colapsado:', kidCard.getAttribute('data-kid'));
     }
 
     collapseAllCards() {
         document.querySelectorAll('.kid-card').forEach(card => {
             card.classList.remove('expanded');
         });
+        console.log('Todos os cards colapsados');
     }
 }
 
